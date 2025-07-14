@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò chuyện</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1877f2;
+            --secondary: #129990;
+            --text: #050505;
+            --border: #ffffff;
+            --chat-bg: #f5fff3b2;
+            --my-message: #d9fdd3;
+            --their-message: white;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary);
+            height: 100vh;
+            display: flex;
+        }
+        
+        /* Sidebar - Danh sách người dùng */
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-right: 1px solid var(--border);
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .sidebar-header h2 {
+            font-size: 20px;
+            color: var(--primary);
+        }
+        
+        .search-box {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            outline: none;
+        }
+        
+        .user-list {
+            list-style: none;
+        }
+        
+        .user-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .user-item:hover {
+            background-color: var(--secondary);
+        }
+        
+        .user-item.active {
+            background-color: var(--secondary);
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .last-message {
+            font-size: 13px;
+            color: #65676b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Phần chat chính */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--chat-bg);
+            background-image: url('https://web.whatsapp.com/img/bg-chat-tile-light_a4be512e7195b6b733d9110b408f075d.png');
+        }
+        
+        .chat-header {
+            padding: 15px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+        
+        .chat-user-name {
+            font-weight: 600;
+            flex: 1;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message {
+            max-width: 70%;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        .my-message {
+            align-self: flex-end;
+            background-color: var(--my-message);
+            border-top-right-radius: 0;
+        }
+        
+        .their-message {
+            align-self: flex-start;
+            background-color: var(--their-message);
+            border-top-left-radius: 0;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #65676b;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .chat-input {
+            padding: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            outline: none;
+            margin: 0 10px;
+        }
+        
+        .send-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Hiệu ứng cuộn */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Danh sách người dùng -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Trò chuyện</h2>
+            <i class="fas fa-ellipsis-h"></i>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" placeholder="Tìm kiếm...">
+        </div>
+        
+        <ul class="user-list">
+            <li class="user-item active">
+                <img src="https://i.imgur.com/JqkXKzL.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="last-message">Bạn: Hôm nay đi ăn tối nhé</div>
+                </div>
+            </li>
+            
+            <li class="user-item">
+                <img src="https://i.imgur.com/w5jXEg3.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">Trần Thị B</div>
+                    <div class="last-message">Tối nay có rảnh không?</div>
+                </div>
+            </li>
+            
+            <li class="user-item">
+                <img src="https://i.imgur.com/7RTa5oX.jpg" alt="Avatar" class="user-avatar">
+                <div class="user-info">
+                    <div class="user-name">Lê Văn C</div>
+                    <div class="last-message">Tài liệu đã gửi cho bạn</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Khung chat -->
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="https://i.imgur.com/JqkXKzL.jpg" alt="Avatar" class="chat-avatar">
+            <div class="chat-user-name">Nguyễn Văn A</div>
+            <i class="fas fa-phone-alt" style="margin: 0 15px; color: var(--primary); cursor: pointer;"></i>
+            <i class="fas fa-video" style="color: var(--primary); cursor: pointer;"></i>
+        </div>
+        
+        <div class="chat-messages">
+            <!-- Tin nhắn của người khác -->
+            <div class="message their-message">
+                Chào bạn! Bạn có khỏe không?
+                <div class="message-time">10:30 AM</div>
+            </div>
+            
+            <!-- Tin nhắn của tôi -->
+            <div class="message my-message">
+                Mình khỏe, cảm ơn bạn!
+                <div class="message-time">10:32 AM</div>
+            </div>
+            
+            <div class="message their-message">
+                Tối nay bạn có rảnh đi uống cà phê không?
+                <div class="message-time">10:33 AM</div>
+            </div>
+            
+            <div class="message my-message">
+                Được đó, khoảng mấy giờ?
+                <div class="message-time">10:35 AM</div>
+            </div>
+        </div>
+        
+        <div class="chat-input">
+            <i class="far fa-smile" style="font-size: 20px; color: #65676b; cursor: pointer;"></i>
+            <input type="text" placeholder="Nhập tin nhắn...">
+            <button class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Xử lý khi click vào người dùng
+        document.querySelectorAll('.user-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.user-item.active').classList.remove('active');
+                this.classList.add('active');
+                
+                // Cập nhật tên ở phần chat header
+                const userName = this.querySelector('.user-name').textContent;
+                document.querySelector('.chat-user-name').textContent = userName;
+                
+                // Cập nhật avatar
+                const avatarSrc = this.querySelector('.user-avatar').src;
+                document.querySelector('.chat-avatar').src = avatarSrc;
+            });
+        });
+        
+        // Xử lý gửi tin nhắn
+        const chatInput = document.querySelector('.chat-input input');
+        const chatMessages = document.querySelector('.chat-messages');
+        
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                const messageText = this.value;
+                this.value = '';
+                
+                // Tạo tin nhắn mới
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message my-message';
+                
+                const now = new Date();
+                const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+                
+                messageDiv.innerHTML = `
+                    ${messageText}
+                    <div class="message-time">${timeString}</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+        
+        // Cuộn xuống dưới cùng khi trang tải
+        window.onload = function() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+    </script>
+</body>
+</html>

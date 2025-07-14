@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập tài khoản</title>
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Google Font - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-light: #FFFBDE;
+            --color-primary-light: #90D1CA;
+            --color-primary: #129990;
+            --color-primary-dark: #096B68;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-light);
+            color: var(--color-primary-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 0 15px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .w3-input {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 20px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .w3-input:focus {
+            border-color: var(--color-primary-light);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(144, 209, 202, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 14px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 30px;
+            /* Tăng khoảng cách phía trên nút */
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-dark);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .form-title i {
+            margin-right: 10px;
+            color: var(--color-primary);
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 5px;
+        }
+
+        .forgot-password a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 15px;
+        }
+
+        .register-link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-login p {
+            position: relative;
+            margin-bottom: 20px;
+            color: #777;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .social-login p::before {
+            left: 0;
+        }
+
+        .social-login p::after {
+            right: 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+
+        .facebook {
+            background-color: #3b5998;
+        }
+
+        .google {
+            background-color: #db4437;
+        }
+
+        .twitter {
+            background-color: #1da1f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Đăng nhập</h2>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="form-group">
+                        <div class="form-title">
+                            <i class="fas fa-user"></i> Thông tin đăng nhập
+                        </div>
+                        <input class="w3-input" type="text" placeholder="Tên tài khoản" required>
+                        <input class="w3-input" type="password" placeholder="Mật khẩu" required>
+                    </div>
+
+                    <div class="login-options">
+                        <label class="remember-me">
+                            <input type="checkbox" class="w3-check"> Ghi nhớ tôi
+                        </label>
+                        <div class="forgot-password">
+                            <a href="#">Quên mật khẩu?</a>
+                        </div>
+                    </div>
+
+                    <button onclick="dn()" type="submit" class="btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                    </button>
+
+                    <div class="register-link">
+                        Chưa có tài khoản? <a href="#">Đăng ký ngay</a>
+                    </div>
+
+                    <div class="social-login">
+                        <p>Hoặc đăng nhập bằng</p>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon google"><i class="fab fa-google"></i></a>
+                            <a href="#" class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function dn() {
+            // Lấy dữ liệu từ form
+            var username = document.querySelector('input[type="text"]').value;
+            var password = document.querySelector('input[type="password"]').value;
+
+            if (!username || !password) {
+                alert("Vui lòng nhập đầy đủ thông tin");
+                return;
+            }
+
+            // Tạo object chứa thông tin đăng nhập
+            var login_data = {
+                "username": username,
+                "pass": password
+            };
+
+            // Gửi yêu cầu đăng nhập đến server
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/api/dn", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify(login_data));
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    var response = JSON.parse(xhr.responseText);
+
+                    if (xhr.status == 200) {
+                        if (response["code"] == 200) {
+                            // Đăng nhập thành công
+                            alert(response["message"]);
+
+                            // 1. Lưu thông tin người dùng vào localStorage (tùy bạn có thể bỏ nếu không cần)
+                            localStorage.setItem('currentUser', JSON.stringify(response.user_data));
+
+                            // 2. Lưu session ID vào cookie (hết hạn sau 1 ngày)
+                            var d = new Date();
+                            d.setTime(d.getTime() + (24 * 60 * 60 * 1000)); // 1 ngày
+                            var expires = "expires=" + d.toUTCString();
+                            document.cookie = "sessionID=" + response.session_id + ";" + expires + ";path=/";
+
+                            // 3. Chuyển hướng đến trang chủ
+                            window.location.href = "/trangchu";
+
+                        } else {
+                            // Sai mật khẩu / không tồn tại / lỗi server
+                            alert(response["message"]);
+                        }
+                    } else {
+                        alert("Đã xảy ra lỗi mạng hoặc server không phản hồi");
+                    }
+                }
+            };
+        }
+
+
+    </script>
+</body>
+
+</html>

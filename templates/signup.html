@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản</title>
+    <!-- W3.CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- Google Font - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-light: #FFFBDE;
+            --color-primary-light: #90D1CA;
+            --color-primary: #129990;
+            --color-primary-dark: #096B68;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-light);
+            color: var(--color-primary-dark);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .w3-input {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+
+        .w3-input:focus {
+            border-color: var(--color-primary-light);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(144, 209, 202, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-dark);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-title i {
+            margin-right: 10px;
+            color: var(--color-primary);
+        }
+
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option-item {
+            flex: 1 0 calc(50% - 10px);
+        }
+
+        .w3-check {
+            margin-right: 8px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-user-plus"></i> Đăng ký tài khoản</h2>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div class="form-group">
+                        <div class="form-title">
+                            <i class="fas fa-user"></i> Thông tin tài khoản
+                        </div>
+                        <input id="inputtk" class="w3-input" type="text" placeholder="Tên tài khoản" required>
+                        <input id="inputmk" class="w3-input" type="password" placeholder="Mật khẩu" required>
+                        <input id="inputnlmk" class="w3-input" type="password" placeholder="Nhập lại mật khẩu" required>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-title">
+                            <i class="fas fa-id-card"></i> Thông tin cá nhân
+                        </div>
+                        <input id="inputage" class="w3-input" type="number" placeholder="Tuổi" min="1" max="120" required>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-title">
+                            <i class="fas fa-venus-mars"></i> Giới tính
+                        </div>
+                        <div id="optiongender" class="options-container">
+                            <label class="option-item">
+                                <input class="w3-radio" type="radio" name="gender" value="male" checked>
+                                <span>Nam</span>
+                            </label>
+                            <label class="option-item">
+                                <input class="w3-radio" type="radio" name="gender" value="female">
+                                <span>Nữ</span>
+                            </label>
+                            <label class="option-item">
+                                <input class="w3-radio" type="radio" name="gender" value="other">
+                                <span>Khác</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-title">
+                            <i class="fas fa-heart"></i> Sở thích
+                        </div>
+                        <div class="options-container">
+                            <label class="option-item">
+                                <input class="w3-check" type="checkbox" name="hobby" value="sports">
+                                <span>Thể thao</span>
+                            </label>
+                            <label class="option-item">
+                                <input class="w3-check" type="checkbox" name="hobby" value="music">
+                                <span>Âm nhạc</span>
+                            </label>
+                            <label class="option-item">
+                                <input class="w3-check" type="checkbox" name="hobby" value="reading">
+                                <span>Đọc sách</span>
+                            </label>
+                            <label class="option-item">
+                                <input class="w3-check" type="checkbox" name="hobby" value="travel">
+                                <span>Du lịch</span>
+                            </label>
+                            <label class="option-item">
+                                <input class="w3-check" type="checkbox" name="hobby" value="gaming">
+                                <span>Chơi game</span>
+                            </label>
+                            <label class="option-item">
+                                <input class="w3-check" type="checkbox" name="hobby" value="cooking">
+                                <span>Nấu ăn</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="dki()" class="btn-primary w3-margin-top">
+                        <i class="fas fa-paper-plane"></i> Đăng ký
+                    </button>
+
+                    <div class="login-link">
+                        Đã có tài khoản? <a href="dangnhap">Đăng nhập ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function dki() {
+
+            // lấy dữ liệu từ những input
+            var input_tk = document.getElementById("inputtk").value;
+            var input_mk = document.getElementById("inputmk").value;
+            var input_nlmk = document.getElementById("inputnlmk").value;
+            var gender = document.getElementById("optiongender").value;
+            var age = document.getElementById("inputage").value;
+            if (input_mk != input_nlmk) {
+                alert("Mật khẩu không trùng khớp");
+                return;
+            }
+
+            // tạo 1 object chứa các thông tin ng dùng lấy được
+            var user_data = {
+                "username": input_tk,
+                "pass": input_mk,
+                "age": age ,
+                "gender": "male",
+                "hobby": [
+                    
+                ]
+            }
+
+            // sử dụng xhr để giao tiếp với máy chủ thông qua API
+            var xhr = new XMLHttpRequest(); // tạo ra 1 bản sao của thư viện xhr
+            xhr.open("POST", "/api/dki", true); // mở API với phương thức post
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8"); // mã hóa dữ liệu
+            xhr.send(JSON.stringify(user_data)); // gửi kèm dữ liệu lên server
+            xhr.onreadystatechange = function (){    
+                if (xhr.status == 200 && xhr.readyState == 4) {
+                    var dataNhanVe=JSON.parse(xhr.responseText);
+                    var message = dataNhanVe["message"];
+                    var code = dataNhanVe["code"]
+                    if (code == 200) {
+                        alert("Đăng kí thành công");
+                        location.href = "/dangnhap";
+                    } else if(code == 400) {
+                        alert("Tài khoản đã bị trùng! vui lòng tạo tài khoản khác!")
+                    } else if(code == 500) {
+                        alert("Máy chủ gặp sự cố! vui lòng quay lại sau!")
+                    }
+
+            
+                } 
+                
+                    
+            };
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+    "userlist": [
+        {
+            "username": "cuong",
+            "pass": "123",
+            "age": "12",
+            "gender": "male",
+            "hobby": []
+        },
+        {
+            "username": "cuongg",
+            "pass": "123",
+            "age": "12",
+            "gender": "male",
+            "hobby": []
+        },
+        {
+            "username": "phuc",
+            "pass": "123",
+            "age": "12",
+            "gender": "male",
+            "hobby": []
+        }
+    ]
+}
