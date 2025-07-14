@@ -1,211 +1,17 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Cá Nhân</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #129990;
-            --primary-light: #90D1CA;
-            --primary-dark: #096B68;
-            --secondary: #FFFBDE;
-            --text: #096B68;
-            --border: #c2e3df;
-            --edit: #e3f6f4;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--secondary);
-            color: var(--text);
-            padding: 20px;
-        }
-
-        .profile-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .cover-photo {
-            height: 150px;
-            background: linear-gradient(135deg, #3a8f86, #3c9996);
-        }
-
-        .edit-toggle {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            color: var(--primary);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-        }
-
-        .profile-info {
-            text-align: center;
-            padding: 0 20px 20px;
-            position: relative;
-            margin-top: -50px;
-        }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 4px solid white;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-
-        .edit-mode .avatar {
-            position: relative;
-        }
-
-        .edit-mode .avatar::after {
-            content: "\f304";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background: var(--primary);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .name {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            padding-top: 10px;
-        }
-
-        .edit-mode .name {
-            position: relative;
-            display: inline-block;
-        }
-
-        .edit-mode .name::after {
-            content: "\f304";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            margin-left: 10px;
-            color: var(--primary);
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border);
-            position: relative;
-        }
-
-        .edit-mode .info-item:hover {
-            background-color: var(--edit);
-            border-radius: 6px;
-        }
-
-        .edit-mode .info-item::after {
-            content: "\f304";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            right: 10px;
-            color: var(--primary);
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .edit-mode .info-item:hover::after {
-            opacity: 1;
-        }
-
-        .info-item i {
-            width: 30px;
-            color: var(--primary);
-            font-size: 18px;
-        }
-
-        .info-content {
-            flex: 1;
-            text-align: left;
-        }
-
-        .info-label {
-            font-size: 14px;
-            color: #607d8b;
-        }
-
-        .info-value {
-            font-weight: 500;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .edit-mode .action-buttons {
-            display: flex;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-secondary {
-            background-color: var(--border);
-            color: var(--text);
-        }
-    </style>
+    <link rel="stylesheet" href="static/css/profile.css">
 </head>
-
 <body>
+    <div class="loading-overlay" id="loading-overlay">
+        <i class="fas fa-spinner loading-spinner"></i>
+    </div>
+
     <div class="profile-container" id="profile-container">
         <button class="edit-toggle" id="edit-toggle">
             <i class="fas fa-pencil-alt"></i>
@@ -218,14 +24,17 @@
         </div>
 
         <div class="profile-info">
-            <img src="https://i.imgur.com/JqkXKzL.jpg" alt="Avatar" class="avatar" id="avatar">
-            <div class="name" id="name">Nguyễn Văn A</div>
+            <div class="avatar-upload">
+                <input type="file" id="avatar-upload" accept="image/*">
+                <img src="https://i.imgur.com/JqkXKzL.jpg" alt="Avatar" class="avatar" id="avatar">
+            </div>
+            <div class="name" id="name"></div>
 
             <div class="info-item" data-field="age">
                 <i class="fas fa-birthday-cake"></i>
                 <div class="info-content">
                     <div class="info-label">Tuổi</div>
-                    <div class="info-value">24</div>
+                    <div class="info-value"></div>
                 </div>
             </div>
 
@@ -233,7 +42,7 @@
                 <i class="fas fa-venus-mars"></i>
                 <div class="info-content">
                     <div class="info-label">Giới tính</div>
-                    <div class="info-value">Nam</div>
+                    <div class="info-value"></div>
                 </div>
             </div>
 
@@ -241,7 +50,7 @@
                 <i class="fas fa-heart"></i>
                 <div class="info-content">
                     <div class="info-label">Sở thích</div>
-                    <div class="info-value">Du lịch, Âm nhạc, Đọc sách</div>
+                    <div class="info-value"></div>
                 </div>
             </div>
 
@@ -249,7 +58,7 @@
                 <i class="fas fa-sticky-note"></i>
                 <div class="info-content">
                     <div class="info-label">Ghi chú</div>
-                    <div class="info-value">Sinh viên năm cuối ĐH Bách Khoa</div>
+                    <div class="info-value"></div>
                 </div>
             </div>
 
@@ -260,7 +69,17 @@
         </div>
     </div>
 
+    <div style="max-width: 500px; margin: 20px auto 0; text-align: center;">
+        <button class="btn btn-primary">Kết bạn</button>
+        <button class="btn btn-secondary">Nhắn tin</button>
+    </div>
+
     <script>
+        // Biến lưu trữ trạng thái ban đầu của thông tin người dùng
+        let originalUserData = null;
+        let currentUserData = null;
+
+        // Các element
         const profileContainer = document.getElementById('profile-container');
         const editToggle = document.getElementById('edit-toggle');
         const editCover = document.getElementById('edit-cover');
@@ -268,76 +87,150 @@
         const cancelBtn = document.getElementById('cancel-btn');
         const nameElement = document.getElementById('name');
         const avatarElement = document.getElementById('avatar');
+        const fileInput = document.getElementById('avatar-upload');
+        const loadingOverlay = document.getElementById('loading-overlay');
 
-        // Toggle chế độ chỉnh sửa
-        editToggle.addEventListener('click', function () {
-            profileContainer.classList.toggle('edit-mode');
-            editCover.style.display = profileContainer.classList.contains('edit-mode') ? 'block' : 'none';
+        // Load thông tin người dùng khi trang được tải
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/get-user-info', {
+                    method: 'GET',
+                    credentials: 'same-origin'
+                });
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    originalUserData = data.data;
+                    currentUserData = { ...originalUserData };
+                    updateUIWithUserData(currentUserData);
+                } else {
+                    alert('Lỗi: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi tải thông tin người dùng');
+            }
+        }
+
+        // Cập nhật UI với dữ liệu người dùng
+        function updateUIWithUserData(userData) {
+            nameElement.textContent = userData.username;
+            avatarElement.src = userData.avatar || 'https://i.imgur.com/JqkXKzL.jpg';
+            
+            document.querySelector('[data-field="age"] .info-value').textContent = userData.age || '';
+            document.querySelector('[data-field="gender"] .info-value').textContent = userData.gender || '';
+            document.querySelector('[data-field="hobby"] .info-value').textContent = userData.hobby || '';
+            document.querySelector('[data-field="note"] .info-value').textContent = userData.note || '';
+        }
+
+        // Xử lý upload avatar
+        fileInput.addEventListener('change', async function(e) {
+            if (!e.target.files.length) return;
+
+            const file = e.target.files[0];
+            if (!file.type.startsWith('image/')) {
+                alert('Vui lòng chọn file hình ảnh');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File quá lớn. Vui lòng chọn file nhỏ hơn 5MB');
+                return;
+            }
+
+            loadingOverlay.classList.add('active');
+
+            try {
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                const response = await fetch('/api/upload-avatar', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'same-origin'
+                });
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    currentUserData.avatar = data.avatar_url;
+                    avatarElement.src = data.avatar_url;
+                    alert('Cập nhật ảnh đại diện thành công!');
+                } else {
+                    alert('Lỗi: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi upload ảnh');
+            } finally {
+                loadingOverlay.classList.remove('active');
+            }
         });
 
-        // Chỉnh sửa thông tin
+        // Xử lý chỉnh sửa thông tin
         document.querySelectorAll('.info-item').forEach(item => {
-            item.addEventListener('click', function () {
+            item.addEventListener('click', function() {
                 if (!profileContainer.classList.contains('edit-mode')) return;
 
+                const field = this.dataset.field;
                 const currentValue = this.querySelector('.info-value').textContent;
-                const newValue = prompt("Nhập giá trị mới:", currentValue);
+                const newValue = prompt(`Nhập ${this.querySelector('.info-label').textContent.toLowerCase()} mới:`, currentValue);
+                
                 if (newValue !== null) {
+                    currentUserData[field] = newValue;
                     this.querySelector('.info-value').textContent = newValue;
                 }
             });
         });
 
-        // Chỉnh sửa tên
-        nameElement.addEventListener('click', function () {
-            if (!profileContainer.classList.contains('edit-mode')) return;
+        // Toggle chế độ chỉnh sửa
+        editToggle.addEventListener('click', function() {
+            profileContainer.classList.toggle('edit-mode');
+            editCover.style.display = profileContainer.classList.contains('edit-mode') ? 'block' : 'none';
+        });
 
-            const currentName = this.textContent.trim();
-            const newName = prompt("Nhập tên mới:", currentName);
-            if (newName !== null) {
-                this.textContent = newName;
+        // Xử lý nút Lưu
+        saveBtn.addEventListener('click', async function() {
+            loadingOverlay.classList.add('active');
+
+            try {
+                const response = await fetch('/api/update-user-info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(currentUserData)
+                });
+                const data = await response.json();
+
+                if (data.code === 200) {
+                    originalUserData = { ...currentUserData };
+                    alert('Cập nhật thông tin thành công!');
+                    profileContainer.classList.remove('edit-mode');
+                    editCover.style.display = 'none';
+                } else {
+                    alert('Lỗi: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi cập nhật thông tin');
+            } finally {
+                loadingOverlay.classList.remove('active');
             }
         });
 
-        // Chỉnh sửa avatar
-        avatarElement.addEventListener('click', function () {
-            if (!profileContainer.classList.contains('edit-mode')) return;
-
-            const newAvatar = prompt("Nhập URL ảnh đại diện mới:", this.src);
-            if (newAvatar !== null && newAvatar !== '') {
-                this.src = newAvatar;
-            }
-        });
-
-        // Chỉnh sửa ảnh bìa
-        editCover.addEventListener('click', function () {
-            const newCover = prompt("Nhập URL ảnh bìa mới:", "");
-            if (newCover !== null && newCover !== '') {
-                document.querySelector('.cover-photo').style.backgroundImage = `url(${newCover})`;
-                document.querySelector('.cover-photo').style.backgroundSize = 'cover';
-            }
-        });
-
-        // Nút lưu
-        saveBtn.addEventListener('click', function () {
-            alert("Thông tin đã được cập nhật!");
-            profileContainer.classList.remove('edit-mode');
-            editCover.style.display = 'none';
-        });
-
-        // Nút hủy
-        cancelBtn.addEventListener('click', function () {
-            if (confirm("Bạn có chắc muốn hủy các thay đổi?")) {
+        // Xử lý nút Hủy
+        cancelBtn.addEventListener('click', function() {
+            if (confirm('Bạn có chắc muốn hủy các thay đổi?')) {
+                currentUserData = { ...originalUserData };
+                updateUIWithUserData(currentUserData);
                 profileContainer.classList.remove('edit-mode');
                 editCover.style.display = 'none';
             }
         });
+
+        // Load user info khi trang được tải
+        window.addEventListener('load', loadUserInfo);
     </script>
-    <div style="max-width: 500px; margin: 20px auto 0; text-align: center;">
-        <button class="btn btn-primary">Kết bạn</button>
-        <button class="btn btn-secondary">Nhắn tin</button>
-    </div>
-
 </body>
-
 </html>

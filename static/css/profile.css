@@ -1,0 +1,195 @@
+:root {
+    --primary: #129990;
+    --primary-light: #90D1CA;
+    --primary-dark: #096B68;
+    --secondary: #FFFBDE;
+    --text: #096B68;
+    --border: #c2e3df;
+    --edit: #e3f6f4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--secondary);
+    color: var(--text);
+    padding: 20px;
+}
+
+.profile-container {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.cover-photo {
+    height: 150px;
+    background: linear-gradient(135deg, #3a8f86, #3c9996);
+}
+
+.edit-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.profile-info {
+    text-align: center;
+    padding: 0 20px 20px;
+    position: relative;
+    margin-top: -50px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 4px solid white;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.edit-mode .avatar {
+    position: relative;
+}
+
+.edit-mode .avatar::after {
+    content: "\f304";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: var(--primary);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-top: 10px;
+}
+
+.edit-mode .name {
+    position: relative;
+    display: inline-block;
+}
+
+.edit-mode .name::after {
+    content: "\f304";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-left: 10px;
+    color: var(--primary);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.edit-mode .info-item:hover {
+    background-color: var(--edit);
+    border-radius: 6px;
+}
+
+.edit-mode .info-item::after {
+    content: "\f304";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 10px;
+    color: var(--primary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.edit-mode .info-item:hover::after {
+    opacity: 1;
+}
+
+.info-item i {
+    width: 30px;
+    color: var(--primary);
+    font-size: 18px;
+}
+
+.info-content {
+    flex: 1;
+    text-align: left;
+}
+
+.info-label {
+    font-size: 14px;
+    color: #607d8b;
+}
+
+.info-value {
+    font-weight: 500;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    display: none;
+}
+
+.edit-mode .action-buttons {
+    display: flex;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: var(--border);
+    color: var(--text);
+}

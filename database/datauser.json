@@ -5,7 +5,8 @@
             "pass": "123",
             "age": "12",
             "gender": "male",
-            "hobby": []
+            "hobby": [],
+            "avatar": "/static/avatars/cuong_avatar_1752501417.png"
         },
         {
             "username": "cuongg",
