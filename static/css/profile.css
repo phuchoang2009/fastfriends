@@ -104,15 +104,6 @@ body {
     display: inline-block;
 }
 
-.edit-mode .name::after {
-    content: "\f304";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    margin-left: 10px;
-    color: var(--primary);
-    font-size: 16px;
-    cursor: pointer;
-}
 
 .info-item {
     display: flex;
@@ -123,26 +114,33 @@ body {
     position: relative;
 }
 
+
 .edit-mode .info-item:hover {
     background-color: var(--edit);
     border-radius: 6px;
 }
 
-.edit-mode .info-item::after {
-    content: "\f304";
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    position: absolute;
-    right: 10px;
+.edit-field-btn {
+    background: transparent;
+    border: none;
     color: var(--primary);
+    font-size: 18px;
     cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s;
+    margin-left: 8px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
 }
 
-.edit-mode .info-item:hover::after {
-    opacity: 1;
+.edit-mode .edit-field-btn {
+    display: inline-flex;
 }
+
+.edit-field-btn:hover {
+    color: var(--primary-dark);
+}
+
 
 .info-item i {
     width: 30px;
@@ -175,6 +173,24 @@ body {
     display: flex;
 }
 
+.btn,
+.btn-primary,
+.btn-secondary {
+    background: #fff;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn:hover,
+.btn:focus,
+.btn-primary:hover,
+.btn-secondary:hover {
+    background: var(--primary);
+    color: #fff;
+    border: 1px solid var(--primary);
+}
+
 .btn {
     flex: 1;
     padding: 10px;
@@ -192,4 +208,7 @@ body {
 .btn-secondary {
     background-color: var(--border);
     color: var(--text);
+}
+.custom-avatar-btn{
+    display: none;
 }

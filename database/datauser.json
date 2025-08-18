@@ -3,14 +3,21 @@
         {
             "username": "cuong",
             "pass": "123",
-            "age": "12",
+            "fullname": "Cuong Nguyen",
+            "age": "16",
             "gender": "male",
-            "hobby": [],
-            "avatar": "/static/avatars/cuong_avatar_1752501417.png"
+            "hobby": [
+                "nấu ăn",
+                "chơi đàn",
+                "xem phim"
+            ],
+            "avatar": "/static/avatars/cuong_avatar_1755520703.png",
+            "note": "muốn kb với người có đam mê lập trình"
         },
         {
             "username": "cuongg",
             "pass": "123",
+            "fullname": "Cuongg Tran",
             "age": "12",
             "gender": "male",
             "hobby": []
@@ -18,9 +25,23 @@
         {
             "username": "phuc",
             "pass": "123",
+            "fullname": "Phuc Hoang",
             "age": "12",
             "gender": "male",
             "hobby": []
+        },
+        {
+            "username": "huy",
+            "pass": "123",
+            "fullname": "Ngô Gia Huy",
+            "age": "17",
+            "gender": "male",
+            "hobby": [
+                "chơi game",
+                "nghe nhạc",
+                "xem phim"
+            ],
+            "note": ""
         }
     ]
 }

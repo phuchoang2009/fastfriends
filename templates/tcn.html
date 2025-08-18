@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Cá Nhân</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="static/css/profile.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.0/css/all.css">
 </head>
 <body>
-    <div class="loading-overlay" id="loading-overlay">
-        <i class="fas fa-spinner loading-spinner"></i>
-    </div>
 
     <div class="profile-container" id="profile-container">
         <button class="edit-toggle" id="edit-toggle">
@@ -25,17 +22,31 @@
 
         <div class="profile-info">
             <div class="avatar-upload">
-                <input type="file" id="avatar-upload" accept="image/*">
-                <img src="https://i.imgur.com/JqkXKzL.jpg" alt="Avatar" class="avatar" id="avatar">
+                <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                <img src="static/img/avt.jpg" alt="Avatar" class="avatar" id="avatar">
+            </div>
+            <div>
+                <button type="button" id="custom-avatar-btn" class="btn btn-secondary" style="display: none;">Chọn ảnh đại diện</button>
             </div>
             <div class="name" id="name"></div>
+            <div class="fullname" id="fullname" style="font-size:1.2em;font-weight:500;margin-bottom:10px;"></div>
 
+            <div class="info-item" data-field="fullname">
+                <i class="fas fa-id-card"></i>
+                <div class="info-content">
+                    <div class="info-label">Họ và tên</div>
+                    <div class="info-value"></div>
+                </div>
+                <button type="button" class="edit-field-btn" data-edit="fullname" title="Chỉnh sửa"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            
             <div class="info-item" data-field="age">
                 <i class="fas fa-birthday-cake"></i>
                 <div class="info-content">
                     <div class="info-label">Tuổi</div>
                     <div class="info-value"></div>
                 </div>
+                <button type="button" class="edit-field-btn" data-edit="age" title="Chỉnh sửa"><i class="fas fa-pencil-alt"></i></button>
             </div>
 
             <div class="info-item" data-field="gender">
@@ -44,6 +55,7 @@
                     <div class="info-label">Giới tính</div>
                     <div class="info-value"></div>
                 </div>
+                <button type="button" class="edit-field-btn" data-edit="gender" title="Chỉnh sửa"><i class="fas fa-pencil-alt"></i></button>
             </div>
 
             <div class="info-item" data-field="hobby">
@@ -52,6 +64,7 @@
                     <div class="info-label">Sở thích</div>
                     <div class="info-value"></div>
                 </div>
+                <button type="button" class="edit-field-btn" data-edit="hobby" title="Chỉnh sửa"><i class="fas fa-pencil-alt"></i></button>
             </div>
 
             <div class="info-item" data-field="note">
@@ -60,6 +73,7 @@
                     <div class="info-label">Ghi chú</div>
                     <div class="info-value"></div>
                 </div>
+                <button type="button" class="edit-field-btn" data-edit="note" title="Chỉnh sửa"><i class="fas fa-pencil-alt"></i></button>
             </div>
 
             <div class="action-buttons">
@@ -70,8 +84,11 @@
     </div>
 
     <div style="max-width: 500px; margin: 20px auto 0; text-align: center;">
-        <button class="btn btn-primary">Kết bạn</button>
-        <button class="btn btn-secondary">Nhắn tin</button>
+        <button onclick="location.href='/'" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Quay lại</button>
+        <button class="btn btn-secondary"><i class="fas fa-user-plus"></i> Kết bạn</button>
+        <button class="btn btn-secondary"><i class="fas fa-comments"></i> Nhắn tin</button>
+        
+
     </div>
 
     <script>
@@ -88,40 +105,57 @@
         const nameElement = document.getElementById('name');
         const avatarElement = document.getElementById('avatar');
         const fileInput = document.getElementById('avatar-upload');
-        const loadingOverlay = document.getElementById('loading-overlay');
+        const customAvatarBtn = document.getElementById('custom-avatar-btn');
+        // const loadingOverlay = document.getElementById('loading-overlay'); (đã xóa overlay)
 
         // Load thông tin người dùng khi trang được tải
-        async function loadUserInfo() {
-            try {
-                const response = await fetch('/api/get-user-info', {
-                    method: 'GET',
-                    credentials: 'same-origin'
-                });
-                const data = await response.json();
-
-                if (data.code === 200) {
-                    originalUserData = data.data;
-                    currentUserData = { ...originalUserData };
-                    updateUIWithUserData(currentUserData);
-                } else {
-                    alert('Lỗi: ' + data.message);
+        function loadUserInfo() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/api/get-user-info", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        if (data.code === 200) {
+                            originalUserData = data.data;
+                            currentUserData = { ...originalUserData };
+                            updateUIWithUserData(currentUserData);
+                        } else {
+                            alert('Lỗi: ' + data.message);
+                        }
+                    } else {
+                        alert('Có lỗi xảy ra khi tải thông tin người dùng');
+                    }
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Có lỗi xảy ra khi tải thông tin người dùng');
-            }
+            };
+            xhr.send();
         }
 
         // Cập nhật UI với dữ liệu người dùng
         function updateUIWithUserData(userData) {
             nameElement.textContent = userData.username;
-            avatarElement.src = userData.avatar || 'https://i.imgur.com/JqkXKzL.jpg';
-            
+            // Render fullname vào info-value
+            document.querySelector('[data-field="fullname"] .info-value').textContent = userData.fullname || '';
+            // Nếu chưa có avatar thì dùng ảnh mặc định ở static/img/avt.jpg
+            avatarElement.src = userData.avatar && userData.avatar !== '' ? userData.avatar : 'static/img/avt.jpg';
             document.querySelector('[data-field="age"] .info-value').textContent = userData.age || '';
             document.querySelector('[data-field="gender"] .info-value').textContent = userData.gender || '';
-            document.querySelector('[data-field="hobby"] .info-value').textContent = userData.hobby || '';
+            // Hobby: nếu là array thì join lại thành string, nếu là string thì giữ nguyên
+            let hobbyStr = '';
+            if (Array.isArray(userData.hobby)) {
+                hobbyStr = userData.hobby.join(', ');
+            } else {
+                hobbyStr = userData.hobby || '';
+            }
+            document.querySelector('[data-field="hobby"] .info-value').textContent = hobbyStr;
             document.querySelector('[data-field="note"] .info-value').textContent = userData.note || '';
         }
+
+        // Khi bấm nút sẽ kích hoạt input file
+        customAvatarBtn.addEventListener('click', function() {
+            fileInput.click();
+        });
 
         // Xử lý upload avatar
         fileInput.addEventListener('change', async function(e) {
@@ -138,7 +172,7 @@
                 return;
             }
 
-            loadingOverlay.classList.add('active');
+            // loadingOverlay.classList.add('active'); (đã xóa overlay)
 
             try {
                 const formData = new FormData();
@@ -162,7 +196,7 @@
                 console.error('Error:', error);
                 alert('Có lỗi xảy ra khi upload ảnh');
             } finally {
-                loadingOverlay.classList.remove('active');
+                // loadingOverlay.classList.remove('active'); (đã xóa overlay)
             }
         });
 
@@ -172,6 +206,10 @@
                 if (!profileContainer.classList.contains('edit-mode')) return;
 
                 const field = this.dataset.field;
+                // Đảm bảo currentUserData tồn tại và có trường field
+                if (!currentUserData) currentUserData = {};
+                if (typeof currentUserData[field] === 'undefined') currentUserData[field] = '';
+
                 const currentValue = this.querySelector('.info-value').textContent;
                 const newValue = prompt(`Nhập ${this.querySelector('.info-label').textContent.toLowerCase()} mới:`, currentValue);
                 
@@ -185,12 +223,28 @@
         // Toggle chế độ chỉnh sửa
         editToggle.addEventListener('click', function() {
             profileContainer.classList.toggle('edit-mode');
-            editCover.style.display = profileContainer.classList.contains('edit-mode') ? 'block' : 'none';
+            // Hiện/ẩn nút chọn ảnh đại diện khi vào/thoát chế độ chỉnh sửa
+            customAvatarBtn.style.display = profileContainer.classList.contains('edit-mode') ? 'inline-block' : 'none';
         });
 
         // Xử lý nút Lưu
         saveBtn.addEventListener('click', async function() {
-            loadingOverlay.classList.add('active');
+            // loadingOverlay.classList.add('active'); (đã xóa overlay)
+
+            // Xử lý hobby: chuyển từ string sang array
+            let hobbyArr = [];
+            if (typeof currentUserData.hobby === 'string') {
+                hobbyArr = currentUserData.hobby.split(',').map(h => h.trim()).filter(h => h);
+            } else if (Array.isArray(currentUserData.hobby)) {
+                hobbyArr = currentUserData.hobby;
+            }
+            const updateData = {
+                username: currentUserData.username,
+                age: currentUserData.age,
+                gender: currentUserData.gender,
+                hobby: hobbyArr,
+                note: currentUserData.note
+            };
 
             try {
                 const response = await fetch('/api/update-user-info', {
@@ -199,12 +253,13 @@
                         'Content-Type': 'application/json',
                     },
                     credentials: 'same-origin',
-                    body: JSON.stringify(currentUserData)
+                    body: JSON.stringify(updateData)
                 });
                 const data = await response.json();
 
                 if (data.code === 200) {
-                    originalUserData = { ...currentUserData };
+                    // Cập nhật lại dữ liệu gốc
+                    originalUserData = { currentUserData };
                     alert('Cập nhật thông tin thành công!');
                     profileContainer.classList.remove('edit-mode');
                     editCover.style.display = 'none';
@@ -215,7 +270,7 @@
                 console.error('Error:', error);
                 alert('Có lỗi xảy ra khi cập nhật thông tin');
             } finally {
-                loadingOverlay.classList.remove('active');
+                // loadingOverlay.classList.remove('active'); (đã xóa overlay)
             }
         });
 

@@ -147,6 +147,7 @@
                         <div class="form-title">
                             <i class="fas fa-id-card"></i> Thông tin cá nhân
                         </div>
+                        <input id="inputfullname" class="w3-input" type="text" placeholder="Họ và tên" required>
                         <input id="inputage" class="w3-input" type="number" placeholder="Tuổi" min="1" max="120" required>
                     </div>
 
@@ -222,6 +223,7 @@
             var input_nlmk = document.getElementById("inputnlmk").value;
             var gender = document.getElementById("optiongender").value;
             var age = document.getElementById("inputage").value;
+            var input_fullname = document.getElementById("inputfullname").value;
             if (input_mk != input_nlmk) {
                 alert("Mật khẩu không trùng khớp");
                 return;
@@ -231,6 +233,7 @@
             var user_data = {
                 "username": input_tk,
                 "pass": input_mk,
+                "fullname": input_fullname,
                 "age": age ,
                 "gender": "male",
                 "hobby": [

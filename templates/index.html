@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Kết Bạn</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.0/css/all.css">
     <style>
         :root {
             --color-primary: #129990;
@@ -179,6 +180,11 @@
             cursor: pointer;
         }
 
+        .header-logo {
+            width: 60px;
+
+        }
+
         @media (max-width: 768px) {
             .profile-card {
                 min-width: calc(50% - 20px);
@@ -197,8 +203,12 @@
     <header class="header">
         <div
             style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-            <h1 style="margin: 0;">Kết Bạn Mới</h1>
-            <button onclick="dxuat()" class="btn btn-logout">Đăng xuất</button>
+            <img src="static/img/logo.png" alt="" class="header-logo">
+            <h1 style="margin: 0;">Fast Friends</h1>
+            <div>
+                <button onclick="location.href='profile'" class="btn btn-logout"><i class="fa fa-address-card"></i> Profile</button>
+                <button onclick="dxuat()" class="btn btn-logout"><i class="fa fa-reply"></i> Đăng xuất</button>
+            </div>
         </div>
     </header>
 
@@ -303,8 +313,8 @@
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-view" onclick="viewProfile(${user.id})">Xem thêm</button>
-                        <button class="btn btn-add" onclick="addFriend(${user.id})">Kết bạn</button>
+                        <button class="btn btn-view" onclick="viewProfile(${user.id})"><i class="fa fa-id-card"></i> Xem thêm</button>
+                        <button class="btn btn-add" onclick="addFriend(${user.id})"><i class="fa fa-user-plus"></i> Kết bạn</button>
                     </div>
                 `;
 

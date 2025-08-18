@@ -284,6 +284,7 @@ def apidki():
         new_user = {
             "username": get_data['username'],
             "pass": get_data['pass'],
+            "fullname": get_data.get('fullname', ""),
             "age": get_data['age'],
             "gender": get_data['gender'],
             "hobby": get_data['hobby']
@@ -419,15 +420,20 @@ def get_user_info():
             
         for user in users_data["userlist"]:
             if user["username"] == username:
+                # Hobby: nếu là array thì join lại thành string, nếu là string thì giữ nguyên
+                hobby_val = user.get("hobby", "")
+                if isinstance(hobby_val, list):
+                    hobby_val = ", ".join(hobby_val)
                 return jsonify({
                     "code": 200,
                     "data": {
                         "username": user["username"],
+                        "fullname": user.get("fullname", ""),
                         "age": user.get("age", ""),
                         "gender": user.get("gender", ""),
-                        "hobby": user.get("hobby", ""),
+                        "hobby": hobby_val,
                         "note": user.get("note", ""),
-                        "avatar": user.get("avatar", "https://i.imgur.com/JqkXKzL.jpg")
+                        "avatar": user.get("avatar", "static/img/avt.jpg")
                     }
                 })
                 
@@ -437,6 +443,56 @@ def get_user_info():
         print("Lỗi:", str(e))
         return jsonify({"message": "Lỗi server", "code": 500})
     
+# API cập nhật thông tin người dùng
+@app.route("/api/update-user-info", methods=["POST"])
+def update_user_info():
+    session_id = request.cookies.get("sessionID")
+    if not session_id:
+        return jsonify({"message": "Chưa đăng nhập", "code": 401})
+
+    try:
+        # Lấy username từ session
+        with open("database/session.json", "r", encoding="utf-8") as f:
+            sessions = json.load(f)
+        username = None
+        for sess in sessions["active_sessions"]:
+            if sess["session_id"] == session_id:
+                username = sess["username"]
+                break
+        if not username:
+            return jsonify({"message": "Phiên đăng nhập không hợp lệ", "code": 401})
+
+        # Lấy dữ liệu gửi lên
+        update_data = request.get_json()
+        if not update_data:
+            return jsonify({"message": "Thiếu dữ liệu cập nhật", "code": 400})
+
+        # Đọc database
+        with open("database/datauser.json", "r", encoding="UTF-8") as f:
+            users_data = json.load(f)
+
+        updated = False
+        for user in users_data["userlist"]:
+            if user["username"] == username:
+                # Chỉ cập nhật các trường cho phép
+                for field in ["age", "gender", "hobby", "note"]:
+                    if field in update_data:
+                        user[field] = update_data[field]
+                updated = True
+                break
+
+        if not updated:
+            return jsonify({"message": "Không tìm thấy người dùng", "code": 404})
+
+        # Ghi lại database
+        with open("database/datauser.json", "w", encoding="UTF-8") as f:
+            json.dump(users_data, f, indent=4, ensure_ascii=False)
+
+        return jsonify({"message": "Cập nhật thành công", "code": 200})
+
+    except Exception as e:
+        print("Lỗi cập nhật user info:", str(e))
+        return jsonify({"message": "Lỗi server", "code": 500})
 
 # Chỉ mở trình duyệt nếu đây là tiến trình chính (tránh auto-reload)
 def open_browser():
