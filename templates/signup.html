@@ -202,6 +202,9 @@
                             </label>
                         </div>
                     </div>
+                    <div>
+                        <input id="inputhobbycustom" class="w3-input" type="text" placeholder="Một số sở thích khác... (cách nhau bằng dấu phẩy hoặc xuống dòng)">
+                    </div>
 
                     <button onclick="dki()" class="btn-primary w3-margin-top">
                         <i class="fas fa-paper-plane"></i> Đăng ký
@@ -224,6 +227,19 @@
             var gender = document.getElementById("optiongender").value;
             var age = document.getElementById("inputage").value;
             var input_fullname = document.getElementById("inputfullname").value;
+            // Lấy các sở thích được chọn
+            var hobby_checked = document.querySelectorAll('input[name="hobby"]:checked');
+            var hobby_arr = [];
+            hobby_checked.forEach(function(cb){
+                hobby_arr.push(cb.value);
+            });
+            // Lấy sở thích nhập riêng
+            var input_hobby_custom = document.getElementById("inputhobbycustom").value.trim();
+            if (input_hobby_custom) {
+                // Tách các sở thích nhập riêng bằng dấu phẩy hoặc xuống dòng
+                var custom_arr = input_hobby_custom.split(/,|\n/).map(function(h){ return h.trim(); }).filter(function(h){ return h; });
+                hobby_arr = hobby_arr.concat(custom_arr);
+            }
             if (input_mk != input_nlmk) {
                 alert("Mật khẩu không trùng khớp");
                 return;
@@ -236,9 +252,7 @@
                 "fullname": input_fullname,
                 "age": age ,
                 "gender": "male",
-                "hobby": [
-                    
-                ]
+                "hobby": hobby_arr
             }
 
             // sử dụng xhr để giao tiếp với máy chủ thông qua API

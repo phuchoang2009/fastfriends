@@ -121,6 +121,30 @@ def profile():
         resp.set_cookie("sessionID", "", expires=0)
         return resp
 
+@app.route("/search")
+def search():
+    session_id = request.cookies.get("sessionID")
+    if not session_id:
+        return redirect("/dangnhap")
+
+    try:
+        with open("database/session.json", "r", encoding="utf-8") as f:
+            sessions = json.load(f)
+            
+        for sess in sessions["active_sessions"]:
+            if sess["session_id"] == session_id:
+                return render_template("search.html")
+
+        resp = make_response(redirect("/dangnhap"))
+        resp.set_cookie("sessionID", "", expires=0)
+        return resp
+            
+    except Exception as e:
+        print("Lỗi:", str(e))
+        resp = make_response(redirect("/dangnhap"))
+        resp.set_cookie("sessionID", "", expires=0)
+        return resp
+
 @app.route("/chat")
 def chat():
     session_id = request.cookies.get("sessionID")
